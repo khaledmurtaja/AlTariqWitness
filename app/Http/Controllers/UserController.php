@@ -30,10 +30,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::create($request->validated());
-        if ($request->translations) {
-            foreach ($request->translations as $translation)
-                $user->setTranslation($translation['field'], $translation['locale'], $translation['value'])->save();
-        }
         return new UserResource($user);
     }
     public function show(Request $request, User $user)
@@ -43,10 +39,6 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        if ($request->translations) {
-            foreach ($request->translations as $translation)
-                $user->setTranslation($translation['field'], $translation['locale'], $translation['value'])->save();
-        }
         return new UserResource($user);
     }
     public function destroy(Request $request, User $user)

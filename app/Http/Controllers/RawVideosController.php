@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateRawVideosRequest;
 use App\Http\Resources\RawVideosResource;
 use App\Models\RawVideos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class RawVideosController extends Controller
@@ -21,6 +22,9 @@ class RawVideosController extends Controller
     }
     public function store(StoreRawVideosRequest $request)
     {
+        // $res = RawVideos::file_get_contents_curl("https://logos-download.com/wp-content/uploads/2016/09/Laravel_logo.png");
+        // $file = file_put_contents("test2.png", $res);
+        // Storage::disk('public')->put("files/tesg.png", $file);
         $EditedVideos = RawVideos::create($request->validated());
         return new RawVideosResource($EditedVideos);
     }

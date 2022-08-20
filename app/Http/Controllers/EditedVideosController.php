@@ -22,6 +22,16 @@ class EditedVideosController extends Controller
     }
     public function store(StoreEditedVideosRequest $request)
     {
+        $file = $request->file('file');
+        if ($file) {
+            $name = $file->getClientOriginalName();
+            $mimetype = $file->getClientOriginalExtension();
+            $path = $file->storeAs(
+                'files',
+                $name . $mimetype,
+                'public'
+            );
+        }
         $EditedVideos = EditedVideos::create($request->validated());
         return new EditedVideosResource($EditedVideos);
     }

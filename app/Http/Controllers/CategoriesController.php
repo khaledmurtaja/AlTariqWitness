@@ -8,6 +8,7 @@ use App\Http\Resources\CategoriesResource;
 use App\Http\Resources\EditedVideosKeywordsResource;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CategoriesController extends Controller

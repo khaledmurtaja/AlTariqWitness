@@ -18,7 +18,8 @@ class PasswordResetController extends Controller
     }
     public function store(PasswordResetRequest $request)
     {
-        $response = $this->user->update(['password' => Hash::make($request->new_password)]);
-        return new UserResource($response);
+        $user = User::find(Auth::id());
+        $user = $user->update(['password' => Hash::make($request->new_password)]);
+        return response()->json(['message' => __("passwords.reset")], 200);
     }
 }

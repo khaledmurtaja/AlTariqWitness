@@ -8,16 +8,15 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public $except, $pagination, $user;
+    public $except, $pagination;
     public function __construct(Request $request)
     {
         $this->middleware('auth:api', ['except' => $this->except]);
         $this->pagination = request('per_page') ?? 15;
-        //$this->user = User::find(auth()->user()->id);
     }
 }
