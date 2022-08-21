@@ -32,6 +32,7 @@ class UpdateUserRequest extends FormRequest
             'mobile' => 'sometimes|numeric',
             'birth_date' => 'sometimes|date',
             'nationality' => 'sometimes',
+            'logo' => 'sometimes',
         ];
     }
 }

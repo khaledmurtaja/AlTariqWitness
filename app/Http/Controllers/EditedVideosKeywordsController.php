@@ -13,7 +13,7 @@ class EditedVideosKeywordsController extends Controller
 {
     public static function routeName()
     {
-        return Str::snake("EditedVideos");
+        return Str::snake("EditedVideosKeywords");
     }
     public function index(Request $request)
     {

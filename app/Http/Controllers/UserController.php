@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-      public static function routeName()
+    public static function routeName()
     {
         return Str::snake("User");
     }
@@ -29,6 +29,17 @@ class UserController extends Controller
     }
     public function store(StoreUserRequest $request)
     {
+        $file = $request->file('logo');
+        if ($file) {
+            $name = $file->getClientOriginalName();
+            $mimetype = $file->getClientOriginalExtension();
+            $path = $file->storeAs(
+                'files',
+                $name . $mimetype,
+                'public'
+            );
+        }
+        $request->logo = $path;
         $user = User::create($request->validated());
         return new UserResource($user);
     }

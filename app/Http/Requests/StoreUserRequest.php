@@ -32,6 +32,7 @@ class StoreUserRequest extends FormRequest
             'mobile' => 'required|numeric',
             'birth_date' => 'required|date',
             'nationality' => 'sometimes',
+            'logo' => 'sometimes',
         ];
     }
 }
