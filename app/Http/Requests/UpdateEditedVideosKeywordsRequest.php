@@ -25,7 +25,7 @@ class UpdateEditedVideosKeywordsRequest extends FormRequest
     {
         return [
             'keyword' => 'required',
-            'edited_video_id' => 'required|exists: edited_videos,id',
+            'edited_video_id' => 'required|exists:edited_videos,id',
         ];
     }
 }

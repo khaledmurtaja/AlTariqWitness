@@ -15,6 +15,10 @@ class EditedVideosKeywordsController extends Controller
     {
         return Str::snake("EditedVideosKeywords");
     }
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+    }
     public function index(Request $request)
     {
         return EditedVideosKeywordsResource::collection(EditedVideosKeywords::search($request)->sort($request)->paginate($this->pagination));
@@ -24,9 +28,9 @@ class EditedVideosKeywordsController extends Controller
         $EditedVideosKeywords = EditedVideosKeywords::create($request->validated());
         return new EditedVideosKeywordsResource($EditedVideosKeywords);
     }
-    public function show(Request $request, EditedVideosKeywords $EditedVideosKeywords)
+    public function show($id)
     {
-        return new EditedVideosKeywordsResource($EditedVideosKeywords);
+        return new EditedVideosKeywordsResource(EditedVideosKeywords::find($id));
     }
     public function update(UpdateEditedVideosKeywordsRequest $request, EditedVideosKeywords $EditedVideosKeywords)
     {

@@ -77,6 +77,7 @@ class CategoriesPolicy
      */
     public function restore(User $user, Categories $categories)
     {
+        return true;
     }
 
     /**
@@ -88,5 +89,6 @@ class CategoriesPolicy
      */
     public function forceDelete(User $user, Categories $categories)
     {
+
     }
 }

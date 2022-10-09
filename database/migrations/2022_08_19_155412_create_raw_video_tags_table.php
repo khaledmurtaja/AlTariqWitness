@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('tag', 50);
             $table->unsignedInteger('raw_video_id');
-            $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->string('start_at');
+            $table->string('end_at');
             $table->softDeletes();
             $table->timestamps();
         });

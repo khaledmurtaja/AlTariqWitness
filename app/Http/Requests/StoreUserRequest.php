@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,12 +27,11 @@ class StoreUserRequest extends FormRequest
             'name' => 'required',
             'status' => 'sometimes|numeric:in 1,255',
             'user_name' => 'required',
-            'password' => 'required|password',
+            'password' => 'required',
             'email' => 'required|email',
             'mobile' => 'required|numeric',
             'birth_date' => 'required|date',
             'nationality' => 'sometimes',
-            'logo' => 'sometimes',
         ];
     }
 }

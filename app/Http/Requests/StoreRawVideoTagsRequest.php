@@ -25,9 +25,9 @@ class StoreRawVideoTagsRequest extends FormRequest
     {
         return [
             'tag' => 'required',
-            'raw_video_id' => 'required|exists: raw_videos,id',
-            'start_at' => 'required|timestamp',
-            'end_at' => 'required|timestamp',
+            'raw_video_id' => 'required|exists:raw_videos,id',
+            'start_at' => 'required',
+            'end_at' => 'required',
         ];
     }
 }

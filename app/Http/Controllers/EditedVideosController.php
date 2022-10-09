@@ -16,6 +16,10 @@ class EditedVideosController extends Controller
     {
         return Str::snake("EditedVideos");
     }
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+    }
     public function index(Request $request)
     {
         return EditedVideosResource::collection(EditedVideos::search($request)->sort($request)->paginate($this->pagination));
@@ -24,29 +28,29 @@ class EditedVideosController extends Controller
     {
         $file = $request->file('file');
         if ($file) {
-            $name = $file->getClientOriginalName();
             $mimetype = $file->getClientOriginalExtension();
             $path = $file->storeAs(
                 'files',
-                $name . $mimetype,
+                uniqid() . '.' . $mimetype,
                 'public'
             );
         }
-        $EditedVideos = EditedVideos::create($request->validated());
+        $EditedVideos = EditedVideos::create($request->validated() + ['url' => $path]);
         return new EditedVideosResource($EditedVideos);
     }
-    public function show(Request $request, EditedVideos $EditedVideos)
+    public function show($id)
     {
-        return new EditedVideosResource($EditedVideos);
+        return new EditedVideosResource(EditedVideos::find($id));
     }
     public function update(UpdateEditedVideosRequest $request, EditedVideos $EditedVideos)
     {
         $EditedVideos->update($request->validated());
         return new EditedVideosResource($EditedVideos);
     }
-    public function destroy(Request $request, EditedVideos $EditedVideos)
+    public function destroy($id)
     {
-        $EditedVideos->delete();
-        return new EditedVideosResource($EditedVideos);
+        $editedVideos = EditedVideos::find($id);
+        $editedVideos->delete();
+        return new EditedVideosResource($editedVideos);
     }
 }

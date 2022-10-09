@@ -17,6 +17,11 @@ class CategoriesController extends Controller
     {
         return Str::snake("Categories");
     }
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $this->authorizeResource(Categories::class, Str::snake("Categories"));
+    }
     public function index(Request $request)
     {
         return CategoriesResource::collection(Categories::search($request)->sort($request)->paginate($this->pagination));

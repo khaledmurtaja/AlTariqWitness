@@ -25,12 +25,18 @@ class User extends Authenticatable
         'remember_token',
         'deleted_at'
     ];
-    protected $appends = ['image_url'];
+    //   protected $appends = ['image_url'];
     protected $casts = [
         'email_verified_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
     ];
+    protected $appends = ['logo_url'];
+
+    public function getLogoUrlAttribute()
+    {
+        return 'http://91.232.125.244:8085' .  '/storage/' . $this->logo;
+    }
     public function scopeSort($query, $request)
     {
     }
@@ -38,10 +44,12 @@ class User extends Authenticatable
     {
         $query->when($request->status, function ($query, $status) {
             $query->whereIn('status', $status);
+        })->when($request->user_name, function ($query, $user_name) {
+            $query->where('user_name', '=', $user_name);
+        })->when($request->email, function ($query, $email) {
+            $query->where('email', '=', $email);
+        })->when($request->mobile, function ($query, $mobile) {
+            $query->where('mobile', '=', $mobile);
         })->orderBy('created_at', 'desc');
-    }
-    public function getImageUrlAttribute()
-    {
-        return env('APP_URL') . Storage::url($this->logo);
     }
 }

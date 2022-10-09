@@ -12,8 +12,17 @@ class EditedVideos extends BaseModel
     use HasFactory, SoftDeletes;
     protected $appends = ['video_url'];
 
-    public function getUrlAttribute()
+    public function getVideoUrlAttribute()
     {
-        return env('APP_URL') . Storage::url($this->url);
+        return 'http://91.232.125.244:8085' .  '/storage/' . $this->url;
+    }
+    public function scopeSort($query, $request)
+    {
+    }
+    public function scopeSearch($query, $request)
+    {
+        if ($request->user_id) {
+            $query->where('user_id', '=', $request->user_id);
+        }
     }
 }

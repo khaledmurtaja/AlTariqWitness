@@ -25,8 +25,7 @@ class UpdateRawVideosRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'url' => 'required',
-            'user_id' => 'required|exists: users,id', //
+            'user_id' => 'required|exists:users,id', //
         ];
     }
 }

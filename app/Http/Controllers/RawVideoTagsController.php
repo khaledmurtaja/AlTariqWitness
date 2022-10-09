@@ -15,6 +15,10 @@ class RawVideoTagsController extends Controller
     {
         return Str::snake("RawVideoTags");
     }
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+    }
     public function index(Request $request)
     {
         return RawVideoTagsResource::collection(RawVideoTags::search($request)->sort($request)->paginate($this->pagination));
@@ -24,9 +28,9 @@ class RawVideoTagsController extends Controller
         $rawVideoTags = RawVideoTags::create($request->validated());
         return new RawVideoTagsResource($rawVideoTags);
     }
-    public function show(Request $request, RawVideoTags $rawVideoTags)
+    public function show($id)
     {
-        return new RawVideoTagsResource($rawVideoTags);
+        return new RawVideoTagsResource(RawVideoTags::find($id));
     }
     public function update(UpdateRawVideoTagsRequest $request, RawVideoTags $rawVideoTags)
     {
