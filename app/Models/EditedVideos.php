@@ -10,11 +10,23 @@ use Illuminate\Support\Facades\Storage;
 class EditedVideos extends BaseModel
 {
     use HasFactory, SoftDeletes;
-    protected $appends = ['video_url'];
-
+    protected $appends = ['video_url', 'thumbnail_url'];
+    protected $with = ['keywords'];
     public function getVideoUrlAttribute()
     {
-        return 'http://91.232.125.244:8085' .  '/storage/' . $this->url;
+        if ($this->url)
+            return  env('APP_URL') .  '/storage/' . $this->url;
+        return null;
+    }
+    public function getThumbnailUrlAttribute()
+    {
+        if ($this->thumbnail)
+            return env('APP_URL') .  '/storage/' . $this->thumbnail;
+        return null;
+    }
+    public function keywords()
+    {
+        return $this->hasMany(EditedVideosKeywords::class, 'edited_video_id');
     }
     public function scopeSort($query, $request)
     {

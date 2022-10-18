@@ -25,20 +25,22 @@ class RawVideoTagsController extends Controller
     }
     public function store(StoreRawVideoTagsRequest $request)
     {
-        $rawVideoTags = RawVideoTags::create($request->validated());
-        return new RawVideoTagsResource($rawVideoTags);
+        $rawVideoTags = RawVideoTags::insert($request->validated()['tags']);
+        return response(['message' => 'success'], 201);
     }
     public function show($id)
     {
         return new RawVideoTagsResource(RawVideoTags::find($id));
     }
-    public function update(UpdateRawVideoTagsRequest $request, RawVideoTags $rawVideoTags)
+    public function update($id, UpdateRawVideoTagsRequest $request)
     {
+        $rawVideoTags = RawVideoTags::find($id);
         $rawVideoTags->update($request->validated());
         return new RawVideoTagsResource($rawVideoTags);
     }
-    public function destroy(Request $request, RawVideoTags $rawVideoTags)
+    public function destroy($id)
     {
+        $rawVideoTags = RawVideoTags::find($id);
         $rawVideoTags->delete();
         return new RawVideoTagsResource($rawVideoTags);
     }

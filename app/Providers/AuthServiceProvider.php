@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\EditedVideos;
+use App\Policies\EditedVideosPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -14,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        EditedVideos::class => EditedVideosPolicy::class,
+
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

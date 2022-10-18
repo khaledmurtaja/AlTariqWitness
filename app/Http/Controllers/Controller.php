@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Auth;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public $except, $pagination;
+    public $except, $pagination, $user;
     public function __construct(Request $request)
     {
         $this->middleware('auth:api', ['except' => $this->except]);
         $this->pagination = request('per_page') ?? 15;
+        if (auth()->user()) {
+            $this->user = User::find(auth()->user()->id);
+        }
     }
 }

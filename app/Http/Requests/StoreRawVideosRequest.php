@@ -25,8 +25,9 @@ class StoreRawVideosRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'url' => 'sometimes',
             'user_id' => 'required|exists:users,id',
+            'thumbnail' => 'sometimes',
+            'duration' => 'sometimes',
         ];
     }
 }

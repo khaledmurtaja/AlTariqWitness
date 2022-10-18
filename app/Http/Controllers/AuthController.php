@@ -11,7 +11,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     public function login()
@@ -39,13 +39,13 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth()->user()->token()->revoke();
         return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth()->user()->createToken('Laravel Personal Access Client'));
     }
 
     protected function respondWithToken($token)

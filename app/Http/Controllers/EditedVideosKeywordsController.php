@@ -25,20 +25,22 @@ class EditedVideosKeywordsController extends Controller
     }
     public function store(StoreEditedVideosKeywordsRequest $request)
     {
-        $EditedVideosKeywords = EditedVideosKeywords::create($request->validated());
-        return new EditedVideosKeywordsResource($EditedVideosKeywords);
+        $EditedVideosKeywords = EditedVideosKeywords::insert($request->validated()['keywords']);
+        return response(['message' => 'success'], 201);
     }
     public function show($id)
     {
         return new EditedVideosKeywordsResource(EditedVideosKeywords::find($id));
     }
-    public function update(UpdateEditedVideosKeywordsRequest $request, EditedVideosKeywords $EditedVideosKeywords)
+    public function update($id, UpdateEditedVideosKeywordsRequest $request)
     {
+        $EditedVideosKeywords = EditedVideosKeywords::find($id);
         $EditedVideosKeywords->update($request->validated());
         return new EditedVideosKeywordsResource($EditedVideosKeywords);
     }
-    public function destroy(Request $request, EditedVideosKeywords $EditedVideosKeywords)
+    public function destroy($id)
     {
+        $EditedVideosKeywords = EditedVideosKeywords::find($id);
         $EditedVideosKeywords->delete();
         return new EditedVideosKeywordsResource($EditedVideosKeywords);
     }

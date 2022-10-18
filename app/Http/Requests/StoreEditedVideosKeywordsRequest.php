@@ -24,8 +24,8 @@ class StoreEditedVideosKeywordsRequest extends FormRequest
     public function rules()
     {
         return [
-            'keyword' => 'required',
-            'edited_video_id' => 'required|exists:edited_videos,id',
+            'keywords.*.keyword' => 'required',
+            'keywords.*.edited_video_id' => 'required|exists:edited_videos,id',
         ];
     }
 }

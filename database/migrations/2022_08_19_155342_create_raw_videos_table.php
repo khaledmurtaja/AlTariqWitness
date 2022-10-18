@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('url');
+            $table->string('thumbnail')->nullable();
+            $table->string('duration')->nullable();
             $table->unsignedInteger('user_id');
             $table->softDeletes();
             $table->timestamps();

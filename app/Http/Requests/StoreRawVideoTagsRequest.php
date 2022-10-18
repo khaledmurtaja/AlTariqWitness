@@ -24,10 +24,10 @@ class StoreRawVideoTagsRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'required',
-            'raw_video_id' => 'required|exists:raw_videos,id',
-            'start_at' => 'required',
-            'end_at' => 'required',
+            'tags.*.tag' => 'required',
+            'tags.*.raw_video_id' => 'required|exists:raw_videos,id',
+            'tags.*.start_at' => 'required',
+            'tags.*.end_at' => 'required',
         ];
     }
 }

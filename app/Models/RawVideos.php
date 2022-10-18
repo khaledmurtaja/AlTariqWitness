@@ -9,12 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RawVideos extends BaseModel
 {
     use HasFactory, SoftDeletes;
-    protected $appends = ['video_url'];
+    protected $appends = ['video_url', 'thumbnail_url'];
     protected $with = ['tags'];
 
     public function getVideoUrlAttribute()
     {
-        return 'http://91.232.125.244:8085' .  '/storage/' . $this->url;
+        if ($this->url)
+            return env('APP_URL') .  '/storage/' . $this->url;
+        return null;
+    }
+    public function getThumbnailUrlAttribute()
+    {
+        if ($this->thumbnail)
+            return env('APP_URL') .  '/storage/' . $this->thumbnail;
+        return null;
     }
     public function tags()
     {

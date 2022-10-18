@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEditedVideosRequest;
 use App\Http\Resources\EditedVideosResource;
 use App\Models\EditedVideos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -26,30 +27,23 @@ class EditedVideosController extends Controller
     }
     public function store(StoreEditedVideosRequest $request)
     {
-        $file = $request->file('file');
-        if ($file) {
-            $mimetype = $file->getClientOriginalExtension();
-            $path = $file->storeAs(
-                'files',
-                uniqid() . '.' . $mimetype,
-                'public'
-            );
-        }
-        $EditedVideos = EditedVideos::create($request->validated() + ['url' => $path]);
+        $EditedVideos = EditedVideos::create($request->validated());
         return new EditedVideosResource($EditedVideos);
     }
     public function show($id)
     {
         return new EditedVideosResource(EditedVideos::find($id));
     }
-    public function update(UpdateEditedVideosRequest $request, EditedVideos $EditedVideos)
+    public function update($id, UpdateEditedVideosRequest $request)
     {
+        $EditedVideos = EditedVideos::find($id);
         $EditedVideos->update($request->validated());
         return new EditedVideosResource($EditedVideos);
     }
     public function destroy($id)
     {
         $editedVideos = EditedVideos::find($id);
+        Storage::disk('public')->delete($editedVideos->url);
         $editedVideos->delete();
         return new EditedVideosResource($editedVideos);
     }
