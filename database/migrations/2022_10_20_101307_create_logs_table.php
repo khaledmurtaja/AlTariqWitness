@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,20 +14,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('edited_videos', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('url')->nullable();
-            $table->string('thumbnail')->nullable();
-            $table->string('duration')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('associatable_type');
+            $table->unsignedBigInteger('associatable_id');
+            $table->integer('action_type');// 0 Uploaded, 1 Edited,  2 Extracted, 3 Cancelled
             $table->string('ip_address', 80);
             $table->string('country');
             $table->string('city')->nullable();
             $table->string('region')->nullable();
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('category_id');
-            $table->timestamps();
+            $table->timestamp('log_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('edited_videos');
+        Schema::dropIfExists('logs');
     }
 };

@@ -9,6 +9,7 @@ use App\Models\RawVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Stevebauman\Location\Facades\Location;
 
 class RawVideosController extends Controller
 {
@@ -27,6 +28,8 @@ class RawVideosController extends Controller
     }
     public function store(StoreRawVideosRequest $request)
     {
+        // $currentUserInfo = Location::get('165.159.24.227');
+        //dd($currentUserInfo);
         $EditedVideos = RawVideos::create($request->validated());
         return new RawVideosResource($EditedVideos);
     }
@@ -43,7 +46,6 @@ class RawVideosController extends Controller
     public function destroy($id)
     {
         $rawVideos = RawVideos::find($id);
-        Storage::disk('public')->delete($rawVideos->url);
         $rawVideos->delete();
         return new RawVideosResource($rawVideos);
     }

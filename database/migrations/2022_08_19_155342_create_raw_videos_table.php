@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('url');
             $table->string('thumbnail')->nullable();
             $table->string('duration')->nullable();
+            $table->string('ip_address', 80);
+            $table->string('country');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
             $table->unsignedInteger('user_id');
             $table->softDeletes();
             $table->timestamps();

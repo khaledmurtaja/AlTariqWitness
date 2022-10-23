@@ -25,7 +25,7 @@ class UpdateCategoriesRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'status' => 'sometimes|numeric:in 0,1'
+            'status' => 'sometimes|numeric|in:0,1'
         ];
     }
 }

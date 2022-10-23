@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\RawVideos;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +11,6 @@ class RawVideosObserver
 {
     public function creating(RawVideos $rawVideos)
     {
-
         $thumbnail = request('thumbnail');
         if ($thumbnail) {
             $mimetype = $thumbnail->getClientOriginalExtension();
@@ -31,5 +31,9 @@ class RawVideosObserver
             );
             $rawVideos->url = $path;
         }
+    }
+    public function deleted(RawVideos $rawVideos)
+    {
+        Storage::disk('public')->delete($rawVideos->url);
     }
 }

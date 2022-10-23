@@ -25,14 +25,13 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'sometimes',
-            'status' => 'sometimes|numeric:in 1,255',
+            'status' => 'sometimes|numeric|in:1,255',
             'user_name' => 'sometimes',
             'password' => 'sometimes|password',
             'email' => 'sometimes|email',
             'mobile' => 'sometimes|numeric',
             'birth_date' => 'sometimes|date',
             'nationality' => 'sometimes',
-            //'logo' => 'sometimes',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\EditedVideos;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +11,6 @@ class EditedVideosObserver
 {
     public function creating(EditedVideos $editedVideos)
     {
-
         $thumbnail = request('thumbnail');
         if ($thumbnail) {
             $mimetype = $thumbnail->getClientOriginalExtension();
@@ -31,5 +31,9 @@ class EditedVideosObserver
             );
             $editedVideos->url = $path;
         }
+    }
+    public function deleted(EditedVideos $editedVideos)
+    {
+        Storage::disk('public')->delete($editedVideos->url);
     }
 }
