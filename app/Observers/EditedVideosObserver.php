@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Exceptions\FileNotFoundException;
 use App\Models\EditedVideos;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,26 +12,19 @@ class EditedVideosObserver
 {
     public function creating(EditedVideos $editedVideos)
     {
+        $editedVideos->user_id = auth()->user()->id;
         $thumbnail = request('thumbnail');
-        if ($thumbnail) {
-            $mimetype = $thumbnail->getClientOriginalExtension();
-            $path = $thumbnail->storeAs(
-                'files',
-                uniqid() . '.' . $mimetype,
-                'public'
-            );
-            $editedVideos->thumbnail = $path;
-        }
+        if ($thumbnail)
+            $editedVideos->url =  store_file($thumbnail);
         $file = request('file');
-        if ($file) {
-            $mimetype = $file->getClientOriginalExtension();
-            $path = $file->storeAs(
-                'files',
-                uniqid() . '.' . $mimetype,
-                'public'
-            );
-            $editedVideos->url = $path;
-        }
+        if (!$file)
+            throw new FileNotFoundException();
+        if ($file)
+            $editedVideos->url =  store_file($file);
+    }
+    public function updated(EditedVideos $editedVideos)
+    {
+        //
     }
     public function deleted(EditedVideos $editedVideos)
     {

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\VideoLogEvent;
+use App\Listeners\HandleVideoLog;
 use App\Models\User;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -20,8 +22,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        User::class => [
-            UserObserver::class
+        VideoLogEvent::class => [
+            HandleVideoLog::class
         ]
     ];
 

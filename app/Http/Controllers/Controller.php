@@ -18,8 +18,5 @@ class Controller extends BaseController
     {
         $this->middleware('auth:api', ['except' => $this->except]);
         $this->pagination = request('per_page') ?? 15;
-        if (auth()->user()) {
-            $this->user = User::find(auth()->user()->id);
-        }
     }
 }

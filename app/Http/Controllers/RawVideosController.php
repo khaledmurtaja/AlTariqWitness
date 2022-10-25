@@ -28,8 +28,6 @@ class RawVideosController extends Controller
     }
     public function store(StoreRawVideosRequest $request)
     {
-        // $currentUserInfo = Location::get('165.159.24.227');
-        //dd($currentUserInfo);
         $EditedVideos = RawVideos::create($request->validated());
         return new RawVideosResource($EditedVideos);
     }

@@ -11,19 +11,6 @@ class RawVideos extends BaseModel
     use HasFactory, SoftDeletes;
     protected $appends = ['video_url', 'thumbnail_url'];
     protected $with = ['tags'];
-
-    public function getVideoUrlAttribute()
-    {
-        if ($this->url)
-            return env('APP_URL') .  '/storage/' . $this->url;
-        return null;
-    }
-    public function getThumbnailUrlAttribute()
-    {
-        if ($this->thumbnail)
-            return env('APP_URL') .  '/storage/' . $this->thumbnail;
-        return null;
-    }
     public function tags()
     {
         return $this->hasMany(RawVideoTags::class, 'raw_video_id');
@@ -33,8 +20,8 @@ class RawVideos extends BaseModel
     }
     public function scopeSearch($query, $request)
     {
-        if ($request->user_id) {
-            $query->where('user_id', '=', $request->user_id);
-        }
+        $query->when($request->user_id, function ($q, $user_id) {
+            $q->where('user_id', '=', $user_id);
+        });
     }
 }

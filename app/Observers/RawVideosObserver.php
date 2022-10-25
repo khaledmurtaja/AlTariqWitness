@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Exceptions\FileNotFoundException;
 use App\Models\RawVideos;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,26 +12,19 @@ class RawVideosObserver
 {
     public function creating(RawVideos $rawVideos)
     {
+        $rawVideos->user_id = auth()->user()->id;
         $thumbnail = request('thumbnail');
-        if ($thumbnail) {
-            $mimetype = $thumbnail->getClientOriginalExtension();
-            $path = $thumbnail->storeAs(
-                'files',
-                uniqid() . '.' . $mimetype,
-                'public'
-            );
-            $rawVideos->thumbnail = $path;
-        }
+        if ($thumbnail)
+            $rawVideos->url =  store_file($thumbnail);
         $file = request('file');
-        if ($file) {
-            $mimetype = $file->getClientOriginalExtension();
-            $path = $file->storeAs(
-                'files',
-                uniqid() . '.' . $mimetype,
-                'public'
-            );
-            $rawVideos->url = $path;
-        }
+        if (!$file)
+            throw new FileNotFoundException();
+        if ($file)
+            $rawVideos->url =  store_file($file);
+    }
+    public function updated(RawVideos $rawVideos)
+    {
+        //
     }
     public function deleted(RawVideos $rawVideos)
     {

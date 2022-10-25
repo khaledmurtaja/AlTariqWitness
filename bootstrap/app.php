@@ -11,6 +11,12 @@
 |
 */
 
+use App\Models\DeletedVideos;
+use App\Models\EditedVideos;
+use App\Models\ExtractedVideos;
+use App\Models\RawVideos;
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
@@ -51,6 +57,12 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+Relation::morphMap([
+    1 => RawVideos::class,
+    2 => EditedVideos::class,
+    3 => ExtractedVideos::class,
+    4 => DeletedVideos::class,
+]);
 
 
 return $app;

@@ -10,6 +10,8 @@ class Logs extends Model
 {
     use HasFactory, SoftDeletes;
     protected $appends = ['action_type_name'];
+    protected $guarded = ['id'];
+    protected $hidden = ['deleted_at'];
     public function getActionTypeNameAttribute()
     {
         $types = [
