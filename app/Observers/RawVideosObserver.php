@@ -13,14 +13,13 @@ class RawVideosObserver
     public function creating(RawVideos $rawVideos)
     {
         $rawVideos->user_id = auth()->user()->id;
-        $thumbnail = request('thumbnail');
-        if ($thumbnail)
-            $rawVideos->url =  store_file($thumbnail);
         $file = request('file');
         if (!$file)
             throw new FileNotFoundException();
-        if ($file)
-            $rawVideos->url =  store_file($file);
+        $rawVideos->url =  store_file($file);
+        $thumbnail = request('thumbnail');
+        if ($thumbnail)
+            $rawVideos->thumbnail =  store_file($thumbnail);
     }
     public function updated(RawVideos $rawVideos)
     {

@@ -13,14 +13,13 @@ class ExtractedVideosObserver
     public function creating(ExtractedVideos $extractedVideos)
     {
         $extractedVideos->user_id = auth()->user()->id;
-        $thumbnail = request('thumbnail');
-        if ($thumbnail)
-            $extractedVideos->url =  store_file($thumbnail);
         $file = request('file');
         if (!$file)
             throw new FileNotFoundException();
-        if ($file)
-            $extractedVideos->url =  store_file($file);
+        $extractedVideos->url =  store_file($file);
+        $thumbnail = request('thumbnail');
+        if ($thumbnail)
+            $extractedVideos->thumbnail =  store_file($thumbnail);
     }
     public function updated(ExtractedVideos $extractedVideos)
     {

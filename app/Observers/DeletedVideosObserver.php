@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\VideoLogEvent;
 use App\Exceptions\FileNotFoundException;
 use App\Models\DeletedVideos;
 use Illuminate\Http\Client\Request;
@@ -12,22 +13,28 @@ class DeletedVideosObserver
 {
     public function creating(DeletedVideos $deletedVideos)
     {
+        $deletedVideos->ip_address = request('ip_address');
         $deletedVideos->user_id = auth()->user()->id;
-        $thumbnail = request('thumbnail');
-        if ($thumbnail)
-            $deletedVideos->url =  store_file($thumbnail);
         $file = request('file');
         if (!$file)
             throw new FileNotFoundException();
-        if ($file)
-            $deletedVideos->url =  store_file($file);
+        $deletedVideos->url =  store_file($file);
+        $thumbnail = request('thumbnail');
+        if ($thumbnail)
+            $deletedVideos->thumbnail =  store_file($thumbnail);
+    }
+    public function created(DeletedVideos $deletedVideos)
+    {
+        VideoLogEvent::dispatch($deletedVideos, 0);
     }
     public function updated(DeletedVideos $deletedVideos)
     {
+        VideoLogEvent::dispatch($deletedVideos, 2);
         //
     }
     public function deleted(DeletedVideos $deletedVideos)
     {
         Storage::disk('public')->delete($deletedVideos->url);
+        VideoLogEvent::dispatch($deletedVideos, 3);
     }
 }
