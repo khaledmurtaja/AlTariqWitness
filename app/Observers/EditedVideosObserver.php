@@ -11,14 +11,7 @@ class EditedVideosObserver
 {
     public function creating(EditedVideos $editedVideos)
     {
-        $editedVideos->user_id = auth()->user()->id;
-        $file = request('file');
-        if (!$file)
-            throw new FileNotFoundException();
-        $editedVideos->url = store_file($file);
-        $thumbnail = request('thumbnail');
-        if ($thumbnail)
-            $editedVideos->thumbnail = store_file($thumbnail);
+        $editedVideos = handle_video_upload($editedVideos);
     }
     public function created(EditedVideos $editedVideos)
     {

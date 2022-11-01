@@ -13,15 +13,7 @@ class DeletedVideosObserver
 {
     public function creating(DeletedVideos $deletedVideos)
     {
-        $deletedVideos->ip_address = request('ip_address');
-        $deletedVideos->user_id = auth()->user()->id;
-        $file = request('file');
-        if (!$file)
-            throw new FileNotFoundException();
-        $deletedVideos->url =  store_file($file);
-        $thumbnail = request('thumbnail');
-        if ($thumbnail)
-            $deletedVideos->thumbnail =  store_file($thumbnail);
+        $deletedVideos = handle_video_upload($deletedVideos);
     }
     public function created(DeletedVideos $deletedVideos)
     {

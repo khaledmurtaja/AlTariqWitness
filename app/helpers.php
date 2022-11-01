@@ -1,10 +1,9 @@
 <?php
 
+use App\Exceptions\FileNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Schema;
+use Stevebauman\Location\Facades\Location;
+
 
 function get_class_type($object)
 {
@@ -27,4 +26,21 @@ function store_file($file)
                     'public'
           );
           return $path;
+}
+function handle_video_upload($class)
+{
+          $class->user_id = auth()->user()->id;
+          $file = request('file');
+          if (!$file)
+                    throw new FileNotFoundException();
+          $class->ip_address = request('ip_address');
+          $class->url =  store_file($file);
+          $thumbnail = request('thumbnail');
+          $currentUserInfo = Location::get($class->ip_address);
+          $class->country = $currentUserInfo->countryName ?? 'undefined';
+          $class->city = $currentUserInfo->cityName ?? 'undefined';
+          $class->region = $currentUserInfo->regionName ?? 'undefined';
+          if ($thumbnail)
+                    $class->thumbnail = store_file($thumbnail);
+          return $class;
 }
