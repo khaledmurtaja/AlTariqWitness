@@ -11,7 +11,7 @@
 |
 */
 
-use App\Models\DeletedVideos;
+use App\Models\DeletedVideo;
 use App\Models\EditedVideos;
 use App\Models\ExtractedVideos;
 use App\Models\RawVideos;
@@ -61,7 +61,7 @@ Relation::morphMap([
     1 => RawVideos::class,
     2 => EditedVideos::class,
     3 => ExtractedVideos::class,
-    4 => DeletedVideos::class,
+    4 => DeletedVideo::class,
 ]);
 
 
