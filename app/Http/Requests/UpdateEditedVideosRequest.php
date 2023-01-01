@@ -26,7 +26,8 @@ class UpdateEditedVideosRequest extends FormRequest
         return [
             'name' => 'required',
             'url' => 'sometimes',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'sometimes|exists:categories,id',
+            'raw_video_id' => 'sometimes|exists:raw_videos,id',
         ];
     }
 }

@@ -25,6 +25,7 @@ class StoreDeletedVideosRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'raw_video_id' => 'required|exists:raw_videos,id',
             'thumbnail' => 'sometimes',
             'duration' => 'sometimes',
         ];

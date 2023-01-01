@@ -25,7 +25,7 @@ class StoreExtractedVideosRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            // 'user_id' => 'required|exists:users,id',
+            'raw_video_id' => 'required|exists:raw_videos,id',
             'thumbnail' => 'sometimes',
             'duration' => 'sometimes',
         ];

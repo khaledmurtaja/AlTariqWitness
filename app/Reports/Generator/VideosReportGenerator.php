@@ -17,17 +17,17 @@ class VideosReportGenerator
     }
     public static function PerDayReport(Request $request)
     {
-        $items = User::get();
-        return response()->json(compact('items'));
+        $actions = Logs::where('associatable_type', '=', $request->video_type)->where('associatable_id', '=', $request->video_id)->groupBy('created_at', 'id')->orderBy('log_date', 'desc')->get();
+        return response()->json(['actions' => $actions]);
     }
     public static function PerUserReport(Request $request)
     {
-        $items = User::get();
-        return response()->json(compact('items'));
+        $actions = Logs::where('associatable_type', '=', $request->video_type)->where('associatable_id', '=', $request->video_id)->groupBy('user_id', 'id')->orderBy('log_date', 'desc')->get();
+        return response()->json(['actions' => $actions]);
     }
     public static function PerCategoryReport(Request $request)
     {
-        $items = User::get();
-        return response()->json(compact('items'));
+        $actions = Logs::where('associatable_type', '=', $request->video_type)->where('associatable_id', '=', $request->video_id)->groupBy('category_id', 'id')->orderBy('log_date', 'desc')->get();
+        return response()->json(['actions' => $actions]);
     }
 }

@@ -20,7 +20,6 @@ class RawVideosController extends Controller
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        // $this->authorizeResource(RawVideos::class, Str::snake("RawVideos"));
     }
     public function index(Request $request)
     {
@@ -31,20 +30,18 @@ class RawVideosController extends Controller
         $EditedVideos = RawVideos::create($request->validated());
         return new RawVideosResource($EditedVideos);
     }
-    public function show($id)
+    public function show(RawVideos $rawVideo)
     {
-        return new RawVideosResource(RawVideos::find($id));
+        return new RawVideosResource($rawVideo);
     }
-    public function update($id, UpdateRawVideosRequest $request)
+    public function update(RawVideos $rawVideo, UpdateRawVideosRequest $request)
     {
-        $rawVideos = RawVideos::find($id);
-        $rawVideos->update($request->validated());
-        return new RawVideosResource($rawVideos);
+        $rawVideo->update($request->validated());
+        return new RawVideosResource($rawVideo);
     }
-    public function destroy($id)
+    public function destroy(RawVideos $rawVideo)
     {
-        $rawVideos = RawVideos::find($id);
-        $rawVideos->delete();
-        return new RawVideosResource($rawVideos);
+        $rawVideo->delete();
+        return new RawVideosResource($rawVideo);
     }
 }

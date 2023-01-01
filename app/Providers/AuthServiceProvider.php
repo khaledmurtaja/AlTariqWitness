@@ -4,7 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use App\Models\DeletedVideos;
+use App\Models\DeletedVideo;
 use App\Models\EditedVideos;
 use App\Policies\DeletedVideosPolicy;
 use App\Policies\EditedVideosPolicy;
@@ -19,8 +19,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        EditedVideos::class => EditedVideosPolicy::class,
-        DeletedVideos::class => DeletedVideosPolicy::class
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

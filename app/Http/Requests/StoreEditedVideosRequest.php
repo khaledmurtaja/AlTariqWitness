@@ -26,6 +26,7 @@ class StoreEditedVideosRequest extends FormRequest
         return [
             'name' => 'required',
             'duration' => 'sometimes',
+            'raw_video_id' => 'required|exists:raw_videos,id',
             'category_id' => 'required|exists:categories,id',
         ];
     }

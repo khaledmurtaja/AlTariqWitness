@@ -7,9 +7,7 @@ use App\Http\Requests\UpdateEditedVideosRequest;
 use App\Http\Resources\EditedVideosResource;
 use App\Models\EditedVideos;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
 
 class EditedVideosController extends Controller
 {
@@ -30,21 +28,18 @@ class EditedVideosController extends Controller
         $EditedVideos = EditedVideos::create($request->validated());
         return new EditedVideosResource($EditedVideos);
     }
-    public function show($id)
+    public function show(EditedVideos $editedVideo)
     {
-        return new EditedVideosResource(EditedVideos::find($id));
+        return new EditedVideosResource($editedVideo);
     }
-    public function update($id, UpdateEditedVideosRequest $request)
+    public function update(UpdateEditedVideosRequest $request, EditedVideos $editedVideo)
     {
-        $EditedVideos = EditedVideos::find($id);
-        $EditedVideos->update($request->validated());
-        return new EditedVideosResource($EditedVideos);
+        $editedVideo->update($request->validated());
+        return new EditedVideosResource($editedVideo);
     }
-    public function destroy($id)
+    public function destroy(EditedVideos $editedVideo)
     {
-        $editedVideos = EditedVideos::find($id);
-        Storage::disk('public')->delete($editedVideos->url);
-        $editedVideos->delete();
-        return new EditedVideosResource($editedVideos);
+        $editedVideo->delete();
+        return new EditedVideosResource($editedVideo);
     }
 }

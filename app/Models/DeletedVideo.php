@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ExtractedVideos extends BaseModel
+class DeletedVideo extends BaseModel
 {
     use HasFactory, SoftDeletes;
-    protected $appends = ['video_url', 'thumbnail_url'];
+    public function scopeSort($query, $request)
+    {
+    }
     public function scopeSearch($query, $request)
     {
         $query->when($request->user_id, function ($q, $user_id) {

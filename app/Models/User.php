@@ -25,17 +25,23 @@ class User extends Authenticatable
         'remember_token',
         'deleted_at'
     ];
-    //   protected $appends = ['image_url'];
     protected $casts = [
         'email_verified_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
     ];
-    protected $appends = ['logo_url'];
-
+    protected $appends = ['logo_url', 'user_type_name'];
     public function getLogoUrlAttribute()
     {
-        return 'http://91.232.125.244:8085' .  '/storage/' . $this->logo;
+        return env('APP_URL')  .  '/storage/' . $this->logo;
+    }
+    public function getUserTypeNameAttribute()
+    {
+        $types = [
+            __("Mobile"),
+            __("Web"),
+        ];
+        return  $types[(int) $this->type - 1] ?? '';
     }
     public function scopeSort($query, $request)
     {

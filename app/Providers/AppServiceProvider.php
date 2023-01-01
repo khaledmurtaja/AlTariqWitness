@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\DeletedVideos;
+use App\Models\DeletedVideo;
 use App\Models\EditedVideos;
 use App\Models\ExtractedVideos;
 use App\Models\RawVideos;
@@ -37,6 +37,6 @@ class AppServiceProvider extends ServiceProvider
         EditedVideos::observe(EditedVideosObserver::class);
         RawVideos::observe(RawVideosObserver::class);
         ExtractedVideos::observe(ExtractedVideosObserver::class);
-        DeletedVideos::observe(DeletedVideosObserver::class);
+        DeletedVideo::observe(DeletedVideosObserver::class);
     }
 }

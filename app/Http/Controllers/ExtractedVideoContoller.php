@@ -39,7 +39,7 @@ class ExtractedVideoContoller extends Controller
      */
     public function store(StoreExtractedVideosRequest $request)
     {
-        $extractedVideos = ExtractedVideos::create(['url' => "1", 'ip_address' => $request->ip(),'country'=>'dd','user_id'=>auth()->user()->id] + $request->validated());
+        $extractedVideos = ExtractedVideos::create($request->validated());
         VideoLogEvent::dispatch($extractedVideos, 0);
         return new ExtractedVideosResource($extractedVideos);
     }
@@ -50,9 +50,9 @@ class ExtractedVideoContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ExtractedVideos $extractedvideo)
     {
-        return new ExtractedVideosResource(ExtractedVideos::find($id));
+        return new ExtractedVideosResource($extractedvideo);
     }
 
     /**
@@ -62,11 +62,10 @@ class ExtractedVideoContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateExtractedVideosRequest $request, $id)
+    public function update(UpdateExtractedVideosRequest $request, ExtractedVideos $extractedvideo)
     {
-        $extractedVideos = ExtractedVideos::find($id);
-        $extractedVideos->update($request->validated());
-        return new ExtractedVideosResource($extractedVideos);
+        $extractedvideo->update($request->validated());
+        return new ExtractedVideosResource($extractedvideo);
     }
 
     /**
@@ -75,8 +74,9 @@ class ExtractedVideoContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ExtractedVideos $extractedvideo)
     {
-        ExtractedVideos::find($id)->delete();
+        $extractedvideo->delete();
+        return new ExtractedVideosResource($extractedvideo);
     }
 }

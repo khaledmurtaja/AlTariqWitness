@@ -27,6 +27,7 @@ class UpdateExtractedVideosRequest extends FormRequest
             'name' => 'required',
             'thumbnail' => 'sometimes',
             'duration' => 'sometimes',
+            'raw_video_id' => 'sometimes|exists:raw_videos,id',
         ];
     }
 }
