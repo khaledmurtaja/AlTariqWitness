@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class EditedVideos extends BaseModel
 {
     use HasFactory, SoftDeletes;
+    public static $is_logged = true;
     protected $appends = ['video_url', 'thumbnail_url'];
     protected $with = ['keywords'];
     public function keywords()
@@ -23,6 +24,8 @@ class EditedVideos extends BaseModel
     {
         $query->when($request->user_id, function ($q, $user_id) {
             $q->where('user_id', '=', $user_id);
+        })->when($request->raw_video_id, function ($q, $raw_video_id) {
+            $q->where('raw_video_id', '=', $raw_video_id);
         });
     }
 }

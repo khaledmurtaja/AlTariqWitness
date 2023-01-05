@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RawVideos extends BaseModel
 {
     use HasFactory, SoftDeletes;
+    public static $is_logged = true;
     protected $appends = ['video_url', 'thumbnail_url'];
     protected $with = ['tags'];
     public function tags()
